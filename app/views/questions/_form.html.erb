@@ -1,0 +1,25 @@
+<%= form_with(model: question, local: true) do |form| %>
+
+<div class="field">
+  
+<%= form.label :text %><br>
+<%= form.text_field :text %>
+<% byebug %>
+<%= form.hidden_field :topic_id, value: params[:topic_id].to_i %>
+</div>
+  <% if question.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+      <ul>
+        <% question.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
