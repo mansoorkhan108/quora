@@ -1,11 +1,57 @@
 
 <div>
-  <h3><span><%= @question.text %></span></h3>
+  <h2><span><%= @question.text %></span></h2>
 
-  <% link_to 'Follow User' %>
-  <% link_to 'Follow Topic'
+  <%= button_to 'Follow User', follow_user_follows_path(question_id: @question.id), method: :post %> <br>
+  <%= button_to 'Follow Topic', follow_topic_follows_path(question_id: @question.id), method: :post %>
 </div>
+<% answer = Answer.new %>
 
-<% @question.answers.each do |answer| %>
+<br><br>
+<h3> Answer here </h3>
+<%= form_with(model: answer, local: true) do |form| %>
 
+  <div class="field">
+    
+  <%= form.text_field :text %>
+  <%= form.hidden_field :user_id, value: current_user.id %>
+  <%= form.hidden_field :question_id, value: @question.id %>
+  </div>
+  <% if answer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(answer.errors.count, "error") %> prohibited this answer from being saved:</h2>
+
+      <ul>
+        <% answer.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
 <% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @question.answers.each_with_index do |answer, index| %>
+
+      <tr>
+        <td><%= index + 1 %></td>
+        <td class='answer'><%= answer.text %></td>
+
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+

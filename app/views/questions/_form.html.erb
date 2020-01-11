@@ -4,8 +4,8 @@
   
 <%= form.label :text %><br>
 <%= form.text_field :text %>
-<% byebug %>
 <%= form.hidden_field :topic_id, value: params[:topic_id].to_i %>
+<%= form.hidden_field :user_id, value: current_user.id %>
 </div>
   <% if question.errors.any? %>
     <div id="error_explanation">
